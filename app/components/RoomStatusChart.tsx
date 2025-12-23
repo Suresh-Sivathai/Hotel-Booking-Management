@@ -20,20 +20,21 @@ export default function RoomStatusChart({ data }: RoomStatusChartProps) {
     // Calculate SVG donut chart segments
     const radius = 80;
     const circumference = 2 * Math.PI * radius;
-    let currentOffset = 0;
 
-    const segments = data.map((item) => {
+    const segments = data.reduce((acc, item) => {
         const percentage = (item.count / total) * 100;
         const segmentLength = (percentage / 100) * circumference;
+        const currentOffset = acc.length > 0 ? acc[acc.length - 1].offset + acc[acc.length - 1].length : 0;
+
         const segment = {
             ...item,
             percentage,
             offset: currentOffset,
             length: segmentLength,
         };
-        currentOffset += segmentLength;
-        return segment;
-    });
+
+        return [...acc, segment];
+    }, [] as Array<RoomStatus & { percentage: number; offset: number; length: number }>);
 
     return (
         <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
