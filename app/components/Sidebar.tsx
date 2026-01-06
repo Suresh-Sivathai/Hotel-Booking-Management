@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
 interface MenuItem {
     id: string;
@@ -8,8 +8,12 @@ interface MenuItem {
     icon: React.ReactNode;
 }
 
-export default function Sidebar() {
-    const [activeItem, setActiveItem] = useState('dashboard');
+interface SidebarProps {
+    activeItem: string;
+    onItemClick: (itemId: string) => void;
+}
+
+export default function Sidebar({ activeItem, onItemClick }: SidebarProps) {
 
     const mainMenuItems: MenuItem[] = [
         {
@@ -64,16 +68,16 @@ export default function Sidebar() {
     ];
 
     return (
-        <div className="w-64 h-screen bg-slate-800 text-white flex flex-col fixed left-0 top-0">
+        <div className="group w-20 hover:w-64 h-screen bg-slate-800 text-white flex flex-col fixed left-0 top-0 transition-all duration-300 ease-in-out z-50 shadow-xl overflow-hidden">
             {/* Logo */}
-            <div className="p-6 border-b border-slate-700">
+            <div className="p-6 border-b border-slate-700 whitespace-nowrap">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
+                    <div className="min-w-[2.5rem] w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
                         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
                     </div>
-                    <div>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
                         <h1 className="text-lg font-bold">LuxeStay</h1>
                         <p className="text-xs text-slate-400">Hotel Management</p>
                     </div>
@@ -82,21 +86,21 @@ export default function Sidebar() {
 
             {/* Main Menu */}
             <div className="flex-1 py-6">
-                <div className="px-4 mb-4">
+                <div className="px-4 mb-4 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Main Menu</p>
                 </div>
                 <nav className="space-y-1 px-3">
                     {mainMenuItems.map((item) => (
                         <button
                             key={item.id}
-                            onClick={() => setActiveItem(item.id)}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${activeItem === item.id
-                                    ? 'bg-slate-700 text-white shadow-lg'
-                                    : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                            onClick={() => onItemClick(item.id)}
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-2 ${activeItem === item.id
+                                ? 'bg-slate-700 text-white shadow-lg'
+                                : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
                                 }`}
                         >
-                            {item.icon}
-                            <span>{item.label}</span>
+                            <div className="min-w-[1.25rem]">{item.icon}</div>
+                            <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">{item.label}</span>
                         </button>
                     ))}
                 </nav>
@@ -104,29 +108,29 @@ export default function Sidebar() {
 
             {/* System Menu */}
             <div className="py-6 border-t border-slate-700">
-                <div className="px-4 mb-4">
+                <div className="px-4 mb-4 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">System</p>
                 </div>
                 <nav className="space-y-1 px-3">
                     {systemItems.map((item) => (
                         <button
                             key={item.id}
-                            onClick={() => setActiveItem(item.id)}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${activeItem === item.id
-                                    ? 'bg-slate-700 text-white shadow-lg'
-                                    : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                            onClick={() => onItemClick(item.id)}
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-2 ${activeItem === item.id
+                                ? 'bg-slate-700 text-white shadow-lg'
+                                : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
                                 }`}
                         >
-                            {item.icon}
-                            <span>{item.label}</span>
+                            <div className="min-w-[1.25rem]">{item.icon}</div>
+                            <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">{item.label}</span>
                         </button>
                     ))}
                 </nav>
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t border-slate-700">
-                <p className="text-xs text-slate-500 text-center">© 2024 LuxeStay</p>
+            <div className="p-4 border-t border-slate-700 whitespace-nowrap overflow-hidden">
+                <p className="text-xs text-slate-500 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">© 2024 LuxeStay</p>
             </div>
         </div>
     );
